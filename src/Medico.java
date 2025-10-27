@@ -1,23 +1,28 @@
-public class Medico {
-	private String crm;
+package ProjetoAtendimentoMedico;
 
-	public String getCrm() {
-		return crm;
-	}
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-	public void setCrm(String crm) {
-		this.crm = crm;
-	}
+public class Medico extends Pessoa {
+    private String crm;
 
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("Medico [crm=");
-		builder.append(crm);
-		builder.append(", toString()=");
-		builder.append(super.toString());
-		builder.append("]");
-		return builder.toString();
-	}
-	
+    public Medico(String nome, String cpf, LocalDate dataNascimento, String crm) {
+        super(nome, cpf, dataNascimento);
+        this.crm = crm;
+    }
+
+    public String getCrm() {
+        return crm;
+    }
+
+    public RegistroAtendimento atenderPaciente(Paciente paciente) {
+        RegistroAtendimento registro = new RegistroAtendimento(paciente, this, LocalDateTime.now());
+        System.out.println("Médico " + getNome() + " atendeu " + paciente.getNome());
+        return registro;
+    }
+
+    @Override
+    public String toString() {
+        return "Médico: " + getNome() + " (CRM: " + crm + ")";
+    }
 }

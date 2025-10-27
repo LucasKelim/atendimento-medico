@@ -1,28 +1,38 @@
-import java.time.LocalDateTime;
+package ProjetoAtendimentoMedico;
 
-public class Paciente extends Pessoa{
-	private LocalDateTime horarioChegada;
-	private Prioridade classificacao;
-	private List<Boolean> respostasClassificacao;
-	
-	public LocalDateTime getHorarioChegada() {
-		return horarioChegada;
-	}
-	public void setHorarioChegada(LocalDateTime horarioChegada) {
-		this.horarioChegada = horarioChegada;
-	}
-	public Prioridade getClassificacao() {
-		return classificacao;
-	}
-	public void setClassificacao(Prioridade classificacao) {
-		this.classificacao = classificacao;
-	}
-	public List<Boolean> getRespostasClassificacao() {
-		return respostasClassificacao;
-	}
-	public void setRespostasClassificacao(List<Boolean> respostasClassificacao) {
-		this.respostasClassificacao = respostasClassificacao;
-	}
-	
-	
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
+
+public class Paciente extends Pessoa {
+    private LocalDateTime horarioChegada;
+    private Prioridade classificacao;
+    private List<Boolean> respostasClassificacao;
+
+    public Paciente(String nome, String cpf, LocalDate dataNascimento, LocalDateTime horarioChegada) {
+        super(nome, cpf, dataNascimento);
+        this.horarioChegada = horarioChegada;
+    }
+
+    public void realizarClassificacao(Prioridade classificacao, List<Boolean> respostas) {
+        this.classificacao = classificacao;
+        this.respostasClassificacao = respostas;
+    }
+
+    public Prioridade getClassificacao() {
+        return classificacao;
+    }
+
+    public LocalDateTime getHorarioChegada() {
+        return horarioChegada;
+    }
+
+    public List<Boolean> getRespostasClassificacao() {
+        return respostasClassificacao;
+    }
+
+    @Override
+    public String toString() {
+        return super.getNome() + " - " + (classificacao != null ? classificacao.getNome() : "Sem classificação");
+    }
 }

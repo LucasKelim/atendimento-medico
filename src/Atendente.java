@@ -1,28 +1,27 @@
-public class Atendente extends Pessoa{
-	private String matricula;
+package ProjetoAtendimentoMedico;
 
-	public String getMatricula() {
-		return matricula;
-	}
+import java.time.LocalDate;
 
-	public void setMatricula(String matricula) {
-		this.matricula = matricula;
-	}
+public class Atendente extends Pessoa {
+    private String matricula;
 
-	public void inserirPacienteNaFila(Paciente paciente, Fila fila) {
-		
-	}
-	
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("Atendente [matricula=");
-		builder.append(matricula);
-		builder.append(", toString()=");
-		builder.append(super.toString());
-		builder.append("]");
-		return builder.toString();
-	}
-	
-	
+    public Atendente(String nome, String cpf, LocalDate dataNascimento, String matricula) {
+        super(nome, cpf, dataNascimento);
+        this.matricula = matricula;
+    }
+
+    public String getMatricula() {
+        return matricula;
+    }
+
+    // Método: inserir paciente na fila
+    public void inserirPacienteNaFila(Paciente paciente, FilaAtendimento fila) {
+        fila.inserirPaciente(paciente);
+        System.out.println("Paciente " + paciente.getNome() + " inserido na fila por " + getNome());
+    }
+
+    @Override
+    public String toString() {
+        return "Atendente: " + getNome() + " (Matrícula: " + matricula + ")";
+    }
 }
