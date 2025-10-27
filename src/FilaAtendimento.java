@@ -1,10 +1,15 @@
-package ProjetoAtendimentoMedico;
-
-import java.time.LocalDateTime;
 import java.util.*;
 
 public class FilaAtendimento {
-    private Queue<Paciente> pacientesFila = new LinkedList<>();
+    private Queue<Paciente> pacientesFila = new PriorityQueue<>(new Comparator<Paciente>() {
+        @Override
+        public int compare(Paciente p1, Paciente p2) {
+            int prioridadeCompare = Integer.compare(p1.getClassificacao().ordinal(), p2.getClassificacao().ordinal());
+            if (prioridadeCompare != 0) return prioridadeCompare;
+
+            return p1.getHorarioChegada().compareTo(p2.getHorarioChegada());
+        }
+    });
     private List<RegistroAtendimento> historicoAtendidos = new ArrayList<>();
     private List<String> perguntasClassificacao = Arrays.asList(
             "O paciente está inconsciente?",
@@ -36,7 +41,16 @@ public class FilaAtendimento {
     }
 
     public List<Paciente> mostrarFila() {
-        return new ArrayList<>(pacientesFila);
+        List<Paciente> lista = new ArrayList<>(pacientesFila);
+        lista.sort(new Comparator<Paciente>() {
+            @Override
+            public int compare(Paciente p1, Paciente p2) {
+                int prioridadeCompare = Integer.compare(p1.getClassificacao().ordinal(), p2.getClassificacao().ordinal());
+                if (prioridadeCompare != 0) return prioridadeCompare;
+                return p1.getHorarioChegada().compareTo(p2.getHorarioChegada());
+            }
+        });
+        return lista;
     }
 
     public RegistroAtendimento simularAtendimento(Medico medico) {

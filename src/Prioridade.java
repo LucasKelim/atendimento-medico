@@ -1,5 +1,3 @@
-package ProjetoAtendimentoMedico;
-
 import java.time.Duration;
 
 public enum Prioridade {

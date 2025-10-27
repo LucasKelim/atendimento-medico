@@ -1,5 +1,3 @@
-package ProjetoAtendimentoMedico;
-
 import java.time.LocalDate;
 
 public class Atendente extends Pessoa {
