@@ -1,5 +1,3 @@
-package hospital;
-
 import java.time.LocalDateTime;
 
 public class Paciente extends Pessoa{

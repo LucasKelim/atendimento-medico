@@ -1,5 +1,3 @@
-package hospital;
-
 public class Atendente extends Pessoa{
 	private String matricula;
 
