@@ -5,19 +5,17 @@ public class RegistroAtendimento {
     private Paciente paciente;
     private Medico medico;
     private LocalDateTime horarioAtendimento;
-    private LocalDateTime horarioChegada;
     private Duration tempoEspera;
 
     public RegistroAtendimento(Paciente paciente, Medico medico, LocalDateTime horarioAtendimento) {
         this.paciente = paciente;
         this.medico = medico;
         this.horarioAtendimento = horarioAtendimento;
-        this.horarioChegada = paciente.getHorarioChegada();
         this.tempoEspera = calcularTempoEspera();
     }
 
     private Duration calcularTempoEspera() {
-        return Duration.between(horarioChegada, horarioAtendimento);
+        return Duration.between(paciente.getHorarioChegada(), horarioAtendimento);
     }
 
     public Paciente getPaciente() {

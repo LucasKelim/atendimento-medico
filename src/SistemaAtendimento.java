@@ -20,9 +20,13 @@ public class SistemaAtendimento {
         medicos.add(new Medico("Dra. Ana", "33344455566", LocalDate.of(1992, 8, 22), "CRM5678"));
 
         for (int i = 1; i <= 20; i++) {
+            String formatCpf = i + "";
+            if (i < 10) {
+                formatCpf = "0" + i;
+            }
             Paciente paciente = new Paciente(
                     "Paciente " + i,
-                    "000111222" + i,
+                    "000111222" + formatCpf,
                     LocalDate.of(2000, 1, i % 28 + 1),
                     LocalDateTime.now().minusMinutes(i * 5)
             );
@@ -34,8 +38,9 @@ public class SistemaAtendimento {
                     Math.random() > 0.7
             );
 
-            fila.realizarClassificacao(paciente, respostas);
             atendente.inserirPacienteNaFila(paciente, fila);
+
+            fila.realizarClassificacao(paciente, respostas);
         }
 
         System.out.println("Sistema inicializado com 20 pacientes.");
@@ -72,8 +77,12 @@ public class SistemaAtendimento {
     }
 
     private void inserirNovoPaciente() {
+        System.out.println("Digite 0 no Nome para voltar ao menu principal");
         System.out.print("Nome: ");
         String nome = scanner.nextLine();
+        if (nome.equals("0")) {
+            return;
+        }
         System.out.print("CPF: ");
         String cpf = scanner.nextLine();
         System.out.print("Ano de nascimento: ");
@@ -97,11 +106,17 @@ public class SistemaAtendimento {
         }
 
         System.out.println("Selecione o paciente para classificar:");
+        System.out.println("0 - Voltar ao menu principal");
         for (int i = 0; i < filaPacientes.size(); i++) {
             System.out.println((i + 1) + " - " + filaPacientes.get(i).getNome());
         }
 
-        int indice = Integer.parseInt(scanner.nextLine()) - 1;
+        String inputIndice = scanner.nextLine();
+        if (inputIndice.equals("0")) {
+            return;
+        }
+        int indice = Integer.parseInt(inputIndice) - 1;
+
         Paciente paciente = filaPacientes.get(indice);
 
         List<Boolean> respostas = new ArrayList<>();
@@ -128,11 +143,17 @@ public class SistemaAtendimento {
 
     private void simularAtendimento() {
         System.out.println("Selecione o médico para atender:");
+        System.out.println("0 - Voltar ao menu principal");
         for (int i = 0; i < medicos.size(); i++) {
             System.out.println((i + 1) + " - " + medicos.get(i).getNome());
         }
 
-        int indice = Integer.parseInt(scanner.nextLine()) - 1;
+        String inputIndice = scanner.nextLine();
+        if (inputIndice.equals("0")) {
+            return;
+        }
+        int indice = Integer.parseInt(inputIndice) - 1;
+
         Medico medico = medicos.get(indice);
 
         RegistroAtendimento registro = fila.simularAtendimento(medico);

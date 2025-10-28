@@ -12,7 +12,6 @@ public class Atendente extends Pessoa {
         return matricula;
     }
 
-    // Método: inserir paciente na fila
     public void inserirPacienteNaFila(Paciente paciente, FilaAtendimento fila) {
         fila.inserirPaciente(paciente);
         System.out.println("Paciente " + paciente.getNome() + " inserido na fila por " + getNome());

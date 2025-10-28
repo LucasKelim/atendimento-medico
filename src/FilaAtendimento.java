@@ -4,6 +4,10 @@ public class FilaAtendimento {
     private Queue<Paciente> pacientesFila = new PriorityQueue<>(new Comparator<Paciente>() {
         @Override
         public int compare(Paciente p1, Paciente p2) {
+            if (p1.getClassificacao() == null && p2.getClassificacao() == null) return 0;
+            if (p1.getClassificacao() == null) return 1;
+            if (p2.getClassificacao() == null) return -1;
+
             int prioridadeCompare = Integer.compare(p1.getClassificacao().ordinal(), p2.getClassificacao().ordinal());
             if (prioridadeCompare != 0) return prioridadeCompare;
 
@@ -19,8 +23,13 @@ public class FilaAtendimento {
     );
 
     public void inserirPaciente(Paciente paciente) {
+        if (paciente.getClassificacao() == null) {
+            paciente.realizarClassificacao(Prioridade.AZUL, Arrays.asList(false, false, false, false));
+            System.out.println("Paciente sem classificação, definido como Azul automaticamente.");
+        }
+
         pacientesFila.add(paciente);
-        System.out.println("Paciente inserido na fila: " + paciente.getNome());
+        System.out.println("Paciente inserido na fila: " + paciente.getNome() + " - " + paciente.getClassificacao().getNome());
     }
 
     public Prioridade realizarClassificacao(Paciente paciente, List<Boolean> respostas) {
@@ -29,14 +38,19 @@ public class FilaAtendimento {
             if (resposta) positivo++;
         }
 
-        Prioridade prioridade;
-        if (positivo == 4) prioridade = Prioridade.VERMELHO;
-        else if (positivo >= 2) prioridade = Prioridade.AMARELO;
-        else if (positivo == 1) prioridade = Prioridade.VERDE;
-        else prioridade = Prioridade.AZUL;
+        Prioridade prioridade = switch (positivo) {
+            case 1 -> Prioridade.VERDE;
+            case 2, 3 -> Prioridade.AMARELO;
+            case 4 -> Prioridade.VERMELHO;
+            default -> Prioridade.AZUL;
+        };
 
         paciente.realizarClassificacao(prioridade, respostas);
         System.out.println("Classificação de " + paciente.getNome() + ": " + prioridade.getNome());
+
+        pacientesFila.remove(paciente);
+        pacientesFila.add(paciente);
+
         return prioridade;
     }
 
@@ -45,6 +59,10 @@ public class FilaAtendimento {
         lista.sort(new Comparator<Paciente>() {
             @Override
             public int compare(Paciente p1, Paciente p2) {
+                if (p1.getClassificacao() == null && p2.getClassificacao() == null) return 0;
+                if (p1.getClassificacao() == null) return 1;
+                if (p2.getClassificacao() == null) return -1;
+
                 int prioridadeCompare = Integer.compare(p1.getClassificacao().ordinal(), p2.getClassificacao().ordinal());
                 if (prioridadeCompare != 0) return prioridadeCompare;
                 return p1.getHorarioChegada().compareTo(p2.getHorarioChegada());

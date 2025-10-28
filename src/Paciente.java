@@ -31,6 +31,12 @@ public class Paciente extends Pessoa {
 
     @Override
     public String toString() {
-        return super.getNome() + " - " + (classificacao != null ? classificacao.getNome() : "Sem classificação");
+        final StringBuilder sb = new StringBuilder("Paciente{");
+        sb.append(super.toString());
+        sb.append("horarioChegada=").append(horarioChegada);
+        sb.append(", classificacao=").append(classificacao);
+        sb.append(", respostasClassificacao=").append(respostasClassificacao);
+        sb.append('}');
+        return sb.toString();
     }
 }
